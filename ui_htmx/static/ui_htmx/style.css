@@ -1,0 +1,21 @@
+table.exam.reports > thead td.exam.table.header {
+    width: 1.6em;
+    writing-mode: sideways-lr;
+    text-align: left;
+    vertical-align: bottom;
+}
+
+span.exam.section > i.revealing.icon {
+    opacity: 0;
+    margin: 0.5em 0em;
+}
+span.exam.section:hover > i.revealing.icon {
+    opacity: 1;
+}
+span.exam.item > i.revealing.icon {
+    opacity: 0;
+    margin: 0.5em 0em;
+}
+span.exam.item:hover > i.revealing.icon {
+    opacity: 1;
+}

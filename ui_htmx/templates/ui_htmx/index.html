@@ -1,0 +1,27 @@
+<div class="ui container">
+    <a hx-get="{% url 'index' %}" hx-push-url="true" hx-target="#content" hx-swap="innerHTML" hx-indicator="#content-loader">Index</a>
+    <h1 class="ui header">Grading table</h1>
+
+    <table class="ui table">
+        <thead>
+            <tr>
+                <th scope="col">Year</th>
+                <th scope="col">Degree</th>
+                <th scope="col">Exam</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exam in exams %}
+                <tr>
+                    <td>{{ exam.year }}</td>
+                    <td>{{ exam.degree }}</td>
+                    <td class="selectable">
+                        <a hx-get="{% url 'display-exam' exam.id %}" hx-push-url="true" hx-target="#htmx_body" hx-swap="innerHTML" hx-indicator="#content-loader">{{ exam.name }}</a>
+                    </td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

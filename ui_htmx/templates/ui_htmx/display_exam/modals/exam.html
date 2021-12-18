@@ -1,0 +1,32 @@
+<div class='header'>Edit exam</div>
+<div class='content'>
+    <div class='ui form edit_exam_form'>
+        <div class='field'>
+            <label>Exam name</label>
+            <input type='text' name='exam_name'>{{ exam_name }}</input>
+        </div>
+        <div class='field'>
+            <label>Degree</label>
+            <input type='text' name='exam_degree'>{{ exam_degree }}</input>
+        </div>
+        <div class='field'>
+            <label>Year</label>
+            <input type='text' name='exam_year'>{{ exam_year }}</input>
+        </div>
+    </div>
+</div>
+<div class='actions'>
+    <button class='ui red basic button'
+        hx-include='.edit_exam_form' hx-delete='{% url "edit-exam" exam_id report_id %}' hx-target='#htmx_body'>
+        Delete
+    </button>
+    <button class='ui cancel button'>Cancel</button>
+    <button class='ui positive right labeled icon button'
+        hx-include='.edit_exam_form' hx-post='{% url "edit-exam" exam_id report_id %}' hx-target='#htmx_body'>
+        Save<i class='checkmark icon'></i>
+    </button>
+</div>
+
+<script>
+    $('.ui.modal').modal('show');
+</script>

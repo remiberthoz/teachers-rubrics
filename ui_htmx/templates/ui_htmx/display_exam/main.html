@@ -1,0 +1,69 @@
+{% load from_gradeitem %}
+{% load make_rating_icon %}
+
+{% include 'ui_htmx/display_exam/menu.html' %}
+{% include 'ui_htmx/display_exam/header.html' %}
+
+<div class="ui main container" style="padding: 2em 0em">
+
+    <table class="ui fixed exam reports table">
+        <thead>
+            <tr>
+                <td></td>
+
+                {% for section in exam.section_set.all %}
+                <td class="blue collapsing exam table header"
+                    hx-get='{% url "edit-section" exam.id section.id %}' hx-target='#overlay' hx-swap="innerHTML">
+                    <span class="exam section">{{ section.name }} <i class="small edit revealing icon"></i></span>
+                </td>
+
+                {% for item in section.gradeitem_set.all %}
+                <td class="collapsing exam table header">
+                    {{ item.desc }}
+                </td>
+                {% endfor %}
+                {% endfor %}
+                <td class="blue collapsing exam table header" style="width: 1.6em; writing-mode: sideways-lr; text-align: left; vertical-align: bottom;"
+                    hx-get='{% url "edit-section" exam.id 0 %}' hx-target='#overlay' hx-swap="innerHTML">
+                    <span class="exam section"><i class="plus square link icon"></i> New section...</span>
+                </td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in exam.report_set.all %}
+            <tr>
+                <td hx-get='{% url "edit-report" exam.id report.id %}' hx-target='#overlay' hx-swap="innerHTML">{{ report.student_id }}</td>
+
+                {% for section in exam.section_set.all %}
+                <td class="blue collapsing" style="padding: 0;"> </td>
+
+                {% for item in section.gradeitem_set.all|dictsort:"position_in_section" %}
+                {% with report.gradediteminreport_set|fromgradeitem:item.id as gir %}
+                <td class="selectable collapsing" style="padding: 0; text-align: center;"
+                        hx-post='{% url "grade-item" exam.id report.id item.id %}' hx-vals='{"score": "cycle"}'>
+                    {{ gir.score|make_rating_icon }}
+                </td>
+                {% endwith %}
+                {% endfor %}
+                {% endfor %}
+                <td class="blue collapsing"></td>
+                <td></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td hx-get='{% url "edit-report" exam.id 0 %}' hx-target='#overlay'><i class="plus square link icon"></i> New group...</td>
+
+                {% for section in exam.section_set.all %}
+                <td class="blue collapsing"></td>
+
+                {% for item in section.gradeitem_set.all %}
+                <td class="collapsing"></td>
+                {% endfor %}
+                {% endfor %}         
+                <td class="blue collapsing"></td>   
+                <td></td>    
+            </tr>
+        </tbody>
+    </table>
+</div>

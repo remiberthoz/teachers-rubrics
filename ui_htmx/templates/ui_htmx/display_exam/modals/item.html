@@ -1,0 +1,28 @@
+<div class='header'>Edit item</div>
+<div class='content'>
+    <div class='ui form edit_item_form'>
+        <div class='field'>
+            <label>Item description</label>
+            <textarea type='text' name='desc'>{{ item.desc }}</textarea>
+            <input type="hidden" name="section_id" value="{{ item.section_id }}">
+        </div>
+    </div>
+</div>
+<div class='actions'>
+    <button class='ui red basic button'
+        hx-include='.edit_item_form' hx-delete='{% url "edit-item" exam_id item.section.id item.id %}' hx-target='#htmx_body'>
+        Delete
+    </button>
+    <button class='ui yellow basic button'>
+        Reset
+    </button>
+    <button class='ui cancel button'>Cancel</button>
+    <button class='ui positive right labeled icon button'
+        hx-include='.edit_item_form' hx-post='{% url "edit-item" exam_id item.section.id item.id %}' hx-target='#htmx_body'>
+        Save<i class='checkmark icon'></i>
+    </button>
+</div>
+
+<script>
+    $('.ui.modal').modal('show');
+</script>

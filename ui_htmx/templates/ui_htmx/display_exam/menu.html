@@ -1,0 +1,22 @@
+<div class='ui vertical inverted menu sidebar left uncover visible'>
+    
+    <a class='item' hx-get='{% url "index" %}' hx-target='#htmx_body'>
+        Home<i class='home icon'></i>
+    </a>
+    
+    <div class='item'>
+        Exams
+        <div class='menu'>
+            {% for exm in exams %}
+                <a class='{% if exm.id == exam.id %}active{% endif %} item'
+                    hx-get='{% url "display-exam" exm.id %}' hx-target='#htmx_body' hx-push-url='true'>
+                    {{ exm.name }}, {{ exm.year }}
+                </a>
+            {% endfor %}
+            <a class='item'
+                hx-get='{% url "display-exam" 0 %}' hx-target='#htmx_body'>
+                Add exam<i class="plus square icon"></i>
+            </a>
+        </div>
+    </div>
+</div>

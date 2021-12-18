@@ -1,0 +1,24 @@
+<div class="header">Edit report</div>
+<div class='content'>
+    <div class='ui form edit_report_form'>
+        <div class='field'>
+            <label>Student ID</label>
+            <input type='text' name='student_id' value='{{ report.student_id }}'>
+        </div>
+    </div>
+</div>
+<div class='actions'>
+    <button class='ui red basic button'
+        hx-include='.edit_report_form' hx-delete='{% url "edit-report" exam_id report.id %}' hx-target='#htmx_body'>
+        Delete
+    </button>
+    <button class='ui cancel button'>Cancel</button>
+    <button class='ui positive right labeled icon button'
+        hx-include='.edit_report_form' hx-post='{% url "edit-report" exam_id report.id %}' hx-target='#htmx_body'>
+        Save<i class='checkmark icon'></i>
+    </button>
+</div>
+
+<script>
+    $('.ui.modal').modal('show');
+</script>
