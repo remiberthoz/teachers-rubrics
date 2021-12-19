@@ -31,9 +31,10 @@ class Exam(models.Model):
 
 class Section(models.Model):
     class Meta:
-        ordering = ['id']
+        ordering = ['position_in_exam', 'id']
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     name = models.CharField(max_length=1024)
+    position_in_exam = models.IntegerField()
 
 
 class GradeItem(models.Model):

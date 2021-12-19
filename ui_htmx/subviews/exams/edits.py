@@ -24,12 +24,12 @@ def edit_exam(request, exam_id):
 def edit_section(request, exam_id, section_id):
 
     if request.method == 'GET':
-        section = class_get(Section, section_id, exam_id=exam_id, name='')
+        section = class_get(Section, section_id, exam_id=exam_id, name='', position_in_exam=0)
         context = {'exam_id': exam_id, 'section': section}
         return HttpResponse(htmx_render_overlay(request, 'ui_htmx/display_exam/modals/section.html', context))
 
     if request.method == 'POST' and 'section_name' in request.POST:
-        class_save(Section, section_id, exam_id=exam_id, name=request.POST['section_name'])
+        class_save(Section, section_id, exam_id=exam_id, name=request.POST['section_name'], position_in_exam=0)
         if 'item_id' in request.POST and 'section_id' in request.POST:
             item_ids = request.POST.getlist('item_id')
             section_ids = request.POST.getlist('section_id')
