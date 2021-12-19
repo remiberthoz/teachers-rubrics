@@ -3,6 +3,7 @@ table.exam.reports > thead td.exam.table.header {
     writing-mode: sideways-lr;
     text-align: left;
     vertical-align: bottom;
+    padding: 0.4em 0.4em;
 }
 
 span.exam.section > i.revealing.icon {
