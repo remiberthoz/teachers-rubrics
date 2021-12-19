@@ -35,6 +35,8 @@ class Section(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     name = models.CharField(max_length=1024)
     position_in_exam = models.IntegerField()
+    def __str__(self) -> str:
+        return self.name
 
 
 class GradeItem(models.Model):
@@ -42,7 +44,9 @@ class GradeItem(models.Model):
         ordering = ['position_in_section', 'id']
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
     desc = models.CharField(max_length=1024)
-    position_in_section = models.IntegerField()
+    position_in_section = models.IntegerField(default=100)
+    def __str__(self) -> str:
+        return self.desc
 
 
 #####################################################################

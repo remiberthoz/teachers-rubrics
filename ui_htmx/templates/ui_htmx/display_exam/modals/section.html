@@ -5,21 +5,7 @@
             <label>Section name</label>
             <input type='text' name='section_name' value='{{ section.name }}'>
         </div>
-        <h4 class="ui dividing header">Items</h4>
-        <form class="ui relaxed large list sortablejs">
-            {% for item in section.gradeitem_set.all %}
-            <div class="item sortable-item" hx-get='{% url "edit-item" exam_id section.id item.id %}' hx-target='#overlay'>
-                <span><i class="icon sort"></i> {{ item.desc }}</span>
-                <input type='hidden' name='item_id' value='{{ item.id }}'>
-                <input type='hidden' name='section_id' value='{{ section.id }}'>
-            </div>
-            {% endfor %}
-            <div class="item" hx-get='{% url "edit-item" exam_id section.id 0 %}' hx-target='#overlay'>
-                <span><i class="link icon plus square"></i> Insert new item</span>
-            </div>
-        </form>
     </div>
-    <div id="nope"></div>
 </div>
 <div class='actions'>
     <button class='ui red basic button'

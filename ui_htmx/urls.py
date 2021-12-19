@@ -9,6 +9,7 @@ urlpatterns = [
     path('<int:exam_id>/edit-section-<int:section_id>/', exams_edits.edit_section, name='edit-section'),
     path('<int:exam_id>/edit-section-<int:section_id>-item-<int:item_id>/', exams_edits.edit_item, name='edit-item'),
     path('<int:exam_id>/edit-report-<int:report_id>/', exams_edits.edit_report, name='edit-report'),
+    path('<int:exam_id>/reorder-items/', exams_edits.reorder_items, name='reorder-items'),
     path('<int:exam_id>/', exams_displays.display_exam, name='display-exam'),
     path('', views.index, name='index'),
 ]

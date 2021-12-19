@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.db import IntegrityError, transaction
 
 # Create your views here.
 from core.models import GradeItem, Section, Report, Exam, class_save, class_delete, class_get
@@ -74,8 +75,39 @@ def edit_item(request, exam_id, section_id, item_id):
         return HttpResponse(htmx_render_overlay(request, 'ui_htmx/display_exam/modals/item.html', context))
 
     if request.method == 'POST' and 'section_id' in request.POST and 'desc' in request.POST:
-        class_save(GradeItem, item_id, section_id=section_id, desc=request.POST['desc'], position_in_section=0)
+        class_save(GradeItem, item_id, section_id=section_id, desc=request.POST['desc'])
     elif request.method == 'DELETE':
         class_delete(GradeItem, item_id)
 
+    return display_exam(request, exam_id)
+
+
+def reorder_items(request, exam_id):
+    if request.method == 'POST' and 'thing_type' in request.POST and 'thing_id' in request.POST:
+        thing_types = request.POST.getlist('thing_type')
+        thing_ids = request.POST.getlist('thing_id')
+        if len(thing_types) != len(thing_ids):
+            return display_exam(request, exam_id)
+        current_section_id = 0
+        current_section_position = 1
+        current_item_position = 1
+        try:
+            with transaction.atomic():
+                for type, i in zip(thing_types, thing_ids):
+                    if type == 'section':
+                        thing = Section.objects.get(id=i)
+                        current_section_id = i
+                        thing.position_in_exam = current_section_position
+                        current_section_position += 1
+                        current_item_position = 0
+                        thing.save()
+                    elif type == 'item':
+                        thing = GradeItem.objects.get(id=i)
+                        thing.section_id = current_section_id
+                        thing.position_in_section = current_item_position
+                        current_item_position += 1
+                        thing.save()
+                    print(type, thing)
+        except IntegrityError:
+            pass
     return display_exam(request, exam_id)

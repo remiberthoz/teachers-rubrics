@@ -7,6 +7,7 @@
 
 <div class="ui main container" style="padding: 2em 0em">
 
+    <form> <!-- this form is required for sortable-js inside the table -->
     <table class="ui exam reports very compact table">
         <thead>
             <tr>
@@ -26,9 +27,11 @@
                 <td></td>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="exam reports sortablejs" hx-post="{% url 'reorder-items' exam.id %}" hx-trigger="end" hx-target='#htmx_body' hx-swap="innerHTML">
             {% for section in exam.section_set.all %}
-            <tr>
+            <tr class="exam reports sortabejs-item" data-id="">
+                <input type='hidden' name='thing_type' value='section'>
+                <input type='hidden' name='thing_id' value='{{ section.id }}'>
                 <td class="six wide blue"
                     hx-get='{% url "edit-section" exam.id section.id %}' hx-target='#overlay' hx-swap="innerHTML">
                     <span class="exam section">{{ section.name }} <i class="small edit revealing icon"></i></span>
@@ -42,14 +45,16 @@
                 <td class="blue"></td>
             </tr>
             {% for item in section.gradeitem_set.all|dictsort:"position_in_section" %}
-            <tr>
-                <td class="">
+            <tr class="exam reports sortabejs-item">
+                <input type='hidden' name='thing_type' value='item'>
+                <input type='hidden' name='thing_id' value='{{ item.id }}'>
+                <td class="" hx-get='{% url "edit-item" exam.id section.id item.id %}' hx-target='#overlay'>
                     {{ item.desc }}
                 </td>
 
                 {% for report in exam.report_set.all %}
                 <td class="collapsing selectable" style="text-align: center;"
-                        hx-post='{% url "grade-item" exam.id report.id item.id %}' hx-vals='{"score": "cycle"}'>
+                        hx-post='{% url "grade-item" exam.id report.id item.id %}' hx-vals='{"score": "cycle"}' hx-target='this'>
                     {% with report.id|get_item_in_report:item.id as gir %}
                     {{ gir.score|make_rating_icon }}
                     {% endwith %}
@@ -74,6 +79,33 @@
                 <td class="collapsing blue"></td>
                 <td class="blue"></td>
             </tr>
+            <tr>
+                <td class="six wide"
+                    hx-get='{% url "edit-item" exam.id exam.section_set.last.id 0 %}' hx-target='#overlay' hx-swap="innerHTML">
+                    <span class="exam section"><i class="plus square link icon"></i> New item...</span>
+                </td>
+
+                {% for report in exam.report_set.all %}
+                <td></td>
+                {% endfor %}
+
+                <td></td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
+    </form>
 </div>
+
+<script>
+    htmx.onLoad(function(content) {
+        var sortables = content.querySelectorAll(".exam.reports.sortablejs");
+        for (var i = 0; i < sortables.length; i++) {
+            var sortable = sortables[i];
+            new Sortable(sortable, {
+                group: 'nested',
+                animation: 150,
+            });
+        }
+    })
+</script>
