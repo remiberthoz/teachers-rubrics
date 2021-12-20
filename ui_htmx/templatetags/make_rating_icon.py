@@ -11,11 +11,11 @@ def make_rating_icon(score):
     score = int(score)
 
     if score == 0:
-        return mark_safe("""<div class="ui blue rating disabled"><i class="small circle icon"></i></div>""")
+        return mark_safe("""<span class="ui blue rating disabled"><i class="small circle icon"></i></span>""")
     if score == 1:
-        return mark_safe("""<div class="ui blue rating disabled"><i class="star icon"></i></div>""")
+        return mark_safe("""<span class="ui blue rating disabled"><i class="star icon"></i></span>""")
     if score == 2:
-        return mark_safe("""<div class="ui blue rating disabled"><i class="star icon active"></i></div>""")
+        return mark_safe("""<span class="ui blue rating disabled"><i class="star icon active"></i></span>""")
     else:
         return mark_safe(""" """)
         

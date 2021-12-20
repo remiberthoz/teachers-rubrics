@@ -48,8 +48,18 @@
             <tr class="exam reports sortabejs-item">
                 <input type='hidden' name='thing_type' value='item'>
                 <input type='hidden' name='thing_id' value='{{ item.id }}'>
-                <td class="" hx-get='{% url "edit-item" exam.id section.id item.id %}' hx-target='#overlay'>
-                    {{ item.desc }}
+                <td hx-get='{% url "edit-item" exam.id section.id item.id %}' hx-target='#overlay'>
+                    <span class="exam item desc">{{ item.desc }}</span>
+                    <div class="ui small popup very wide">
+                        <div class="header">
+                            {{ item.desc }}
+                        </div>
+                        <div class="content">
+                            <p><span style="width: 2em; display: inline-block; text-align: center;">{{ 2|make_rating_icon }}</span>{{ item.desc_2 }}</p>
+                            <p><span style="width: 2em; display: inline-block; text-align: center;">{{ 1|make_rating_icon }}</span>{{ item.desc_1 }}</p>
+                            <p><span style="width: 2em; display: inline-block; text-align: center;">{{ 0|make_rating_icon }}</span>{{ item.desc_0 }}</p>
+                        </div>
+                    </div>
                 </td>
 
                 {% for report in exam.report_set.all %}
@@ -98,6 +108,21 @@
 </div>
 
 <script>
+    var resizePopup = function(){$('.ui.popup').css('max-height', $(window).height());};
+
+    $(window).resize(function(e){
+        resizePopup();
+    });
+
+    $('.exam.item.desc')
+    .popup({
+        inline: true,
+        lastResort: 'bottom right',
+        onShow: function(){
+            resizePopup();
+        },
+    });
+
     htmx.onLoad(function(content) {
         var sortables = content.querySelectorAll(".exam.reports.sortablejs");
         for (var i = 0; i < sortables.length; i++) {
