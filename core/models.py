@@ -44,6 +44,9 @@ class GradeItem(models.Model):
         ordering = ['position_in_section', 'id']
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
     desc = models.CharField(max_length=1024)
+    desc_0 = models.CharField(max_length=1024)
+    desc_1 = models.CharField(max_length=1024)
+    desc_2 = models.CharField(max_length=1024)
     position_in_section = models.IntegerField(default=100)
     def __str__(self) -> str:
         return self.desc

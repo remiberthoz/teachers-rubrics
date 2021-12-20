@@ -74,8 +74,8 @@ def edit_item(request, exam_id, section_id, item_id):
         context = {'exam_id': exam_id, 'item': item}
         return HttpResponse(htmx_render_overlay(request, 'ui_htmx/display_exam/modals/item.html', context))
 
-    if request.method == 'POST' and 'section_id' in request.POST and 'desc' in request.POST:
-        class_save(GradeItem, item_id, section_id=section_id, desc=request.POST['desc'])
+    if request.method == 'POST' and 'section_id' in request.POST and 'desc' in request.POST and 'desc_0' in request.POST and 'desc_1' in request.POST and 'desc_2' in request.POST:
+        class_save(GradeItem, item_id, section_id=section_id, desc=request.POST['desc'], desc_0=request.POST['desc_0'], desc_1=request.POST['desc_1'], desc_2=request.POST['desc_2'])
     elif request.method == 'DELETE':
         class_delete(GradeItem, item_id)
 

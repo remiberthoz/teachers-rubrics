@@ -3,8 +3,31 @@
     <div class='ui form edit_item_form'>
         <div class='field'>
             <label>Item description</label>
-            <textarea type='text' name='desc'>{{ item.desc }}</textarea>
+            <input type='text' name='desc' value='{{ item.desc }}'>
             <input type="hidden" name="section_id" value="{{ item.section_id }}">
+        </div>
+        <div class="field">
+            <label>Scoring details</label>
+            <div class="ui three column grid">
+                <div class="column">
+                    <div class="ui fluid left icon input">
+                        <textarea name='desc_0'>{{ item.desc_0 }}</textarea>
+                        <i class="circle icon"></i>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui fluid left icon input">
+                        <textarea name='desc_1'>{{ item.desc_1 }}</textarea>
+                        <i class="star icon"></i>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui fluid left icon input">
+                        <textarea name='desc_2'>{{ item.desc_2 }}</textarea>
+                        <i class="blue star icon"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
